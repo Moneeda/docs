@@ -220,16 +220,30 @@
         <ul class="search-results"></ul>
       <div id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+            <a href="#moneeda-api" class="toc-h1 toc-link" data-title="Moneeda API">Moneeda API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#introduction" class="toc-h2 toc-link" data-title="Introduction">Introduction</a>
+                  </li>
+                  <li>
+                    <a href="#api-limits" class="toc-h2 toc-link" data-title="API Limits">API Limits</a>
+                  </li>
+                  <li>
+                    <a href="#disclaimer" class="toc-h2 toc-link" data-title="Disclaimer">Disclaimer</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#public-endpoints" class="toc-h1 toc-link" data-title="Public endpoints">Public endpoints</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#public-client-instance" class="toc-h2 toc-link" data-title="Public client instance">Public client instance</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-products" class="toc-h2 toc-link" data-title="Get All Products">Get All Products</a>
                   </li>
                   <li>
                     <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
@@ -250,93 +264,125 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Moneeda API!</p>
+        <h1 id='moneeda-api'>Moneeda API</h1><h2 id='introduction'>Introduction</h2>
+<p>Welcome to the Moneeda API documentation!</p>
+<h2 id='api-limits'>API Limits</h2>
+<p>We are testing everything, so no limits for now. Act responsibly and please don&#39;t DDOS.</p>
+<h2 id='disclaimer'>Disclaimer</h2>
+<p>Use this API carefully as real money is being moved.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+  -H <span class="s2">"Authorization: Bearer MY_MONEEDA_TOKEN"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">Moneeda</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'moneeda-node'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">moneeda</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Moneeda</span><span class="p">(</span><span class="s1">'MY_MONEEDA_TOKEN'</span><span class="p">);</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Make sure to replace <code>MY_MONEEDA_TOKEN</code> with your token</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Moneeda uses a token to allow access to the API. You can register a new user and retrieve a new token at our <a href="https://moneeda.com/developers">developer portal</a>.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Moneeda expects for the token to be included in all API requests to the server in a header that looks like the following:</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p><code>Authorization: Bearer MY_MONEEDA_TOKEN</code></p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>MY_MONEEDA_TOKEN</code> with your personal token.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='public-endpoints'>Public endpoints</h1>
+<p>All public endpoints do not require any specific API key. If you are going to heavily
+call the endpoint, consider using a Websocket instead.</p>
+<h2 id='public-client-instance'>Public client instance</h2>
+<blockquote>
+<p>Create a new instance of the public client</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>// there is no real differentiation <span class="k">in </span>the url between public/authenticated endpoints
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">Moneeda</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'moneeda-node'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">moneeda</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Moneeda</span><span class="p">(</span><span class="s1">'MY_MONEEDA_TOKEN'</span><span class="p">);</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="kr">const</span> <span class="nx">publicClient</span> <span class="o">=</span> <span class="nx">moneeda</span><span class="p">.</span><span class="kr">public</span><span class="p">();</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
+<span class="c1">// An exchange can be passed optionally</span>
+<span class="kr">const</span> <span class="nx">publicClient2</span> <span class="o">=</span> <span class="nx">moneeda</span><span class="p">.</span><span class="kr">public</span><span class="p">(</span><span class="s1">'BTX'</span><span class="p">);</span>
+
+<span class="c1">// or set</span>
+<span class="nx">publicClient</span><span class="p">.</span><span class="nx">setExchange</span><span class="p">(</span><span class="s1">'BTX'</span><span class="p">);</span>
+</code></pre>
+<p>If you are using the provided <code>moneeda libraries</code>, you can easily get an instance
+of the public client</p>
+<h3 id='exchanges'>Exchanges</h3>
+<p>Moneeda will use the defined exchange of the public instance by default.</p>
+
+<p>To set an exchange you can pass it as a <code>parameter</code> to the constructor or just
+set it as needed (great to make multiple calls to different exchanges).</p>
+
+<aside class="warning">
+Be careful if you are going to call multiple exchanges in different endpoints. You should
+have a new instance in each endpoint to avoid concurrency problems.
+</aside>
+<h2 id='get-all-products'>Get All Products</h2>
+<blockquote>
+<p>Returns all the products of an exchange</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.moneeda.com/api/exchanges/EXCHANGE/products"</span>
   -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">Moneeda</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'moneeda-node'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">moneeda</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Moneeda</span><span class="p">(</span><span class="s1">'MY_MONEEDA_TOKEN'</span><span class="p">);</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<span class="nx">moneeda</span><span class="p">.</span><span class="kr">public</span><span class="p">(</span><span class="nx">EXCHANGE</span><span class="p">).</span><span class="nx">products</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kr">const</span> <span class="nx">publicClient</span> <span class="o">=</span> <span class="nx">moneeda</span><span class="p">.</span><span class="kr">public</span><span class="p">()</span>
+<span class="nx">publicClient</span><span class="p">.</span><span class="nx">setExchange</span><span class="p">(</span><span class="nx">EXCHANGE</span><span class="p">)</span>
+<span class="nx">publicClient</span><span class="p">.</span><span class="nx">products</span><span class="p">()</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"originalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"btcusd"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_min_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.002"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_max_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_increment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LTC-USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"originalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ltcusd"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USD"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_min_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.002"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"base_max_size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_increment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
+<blockquote>
+<p>Make sure to replace <code>EXCHANGE</code> with your desired exchange</p>
+</blockquote>
+
+<p>This endpoint retrieves all the products of an exchange.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<p><code>GET https://api.moneeda.com/api/EXCHANGE/products</code></p>
+<h3 id='parameters'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>EXCHANGE</td>
+<td>The desired exchange to retrieve the products.</td>
 </tr>
 </tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
 <h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
