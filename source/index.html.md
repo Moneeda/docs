@@ -145,7 +145,7 @@ const products = await moneeda.public(EXCHANGE).products()
 > Make sure to replace `EXCHANGE` with your desired exchange
 
 
-Returns a Promise that resolves all products available for the defined exchange
+Returns a Promise that resolves all products available for the defined exchange.
 
 ### HTTP Request
 
@@ -156,6 +156,10 @@ Returns a Promise that resolves all products available for the defined exchange
 Parameter | Description
 --------- | -----------
 EXCHANGE | The desired exchange to retrieve the products.
+
+<aside class="success">
+All products' ids across different exchanges are formatted to have an standard pattern: <strong>BASE_CURRENCY-QUOTE_CURRENCY</strong> (ex: BTC-USD, ETH-OMG). The original product id is also provided.
+</aside>
 
 
 ## Ticker
@@ -353,63 +357,142 @@ This endpoint is not supported the following exchanges:
 </aside>
 
 
+## Trades
 
-
-
-
-
-
-
-
-
-
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+> Returns the trades for a specific product
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
+curl "https://api.moneeda.com/api/exchanges/EXCHANGE/trades?product=MY-PRODUCT"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const Moneeda = require('moneeda-node');
+const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+// optional params
+const params =  {
+  from: 12314124,
+  to: 12341555,
+  limit: 100
+}
+moneeda.public(EXCHANGE)
+      .trades(PRODUCT, params)
+      .then((trades) => console.log(trades));
+
+// or with async/await
+const trades = await moneeda.public(EXCHANGE).trades('BTC-USD', params)
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+      "tradeId": 2744695,
+      "time": 1513182321868,
+      "size": "0.69000000",
+      "price": "0.00283100",
+      "side": "buy"
+  },
+  {
+      "tradeId": 2744696,
+      "time": 1513182321869,
+      "size": "75.55000000",
+      "price": "0.00283100",
+      "side": "sell"
+  },
+  ...
+]
+```
+
+> Make sure to replace `EXCHANGE` with your desired exchange
+
+Returns a promise that resolves the trades of a defined product
+
+### HTTP Request
+
+`GET https://api.moneeda.com/api/EXCHANGE/trades`
+
+### Parameters
+
+Parameter | Description
+--------- | -----------
+EXCHANGE | The desired exchange to retrieve the products.
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- |-------- | -----------
+product | - |The desired product.
+limit | - | Limit the amount of results
+from | - | From date timestamp
+to | - | To date timestamp
+
+
+## Order Book
+
+> Returns the order book for a specific product
+
+```shell
+curl "https://api.moneeda.com/api/exchanges/EXCHANGE/book?product=MY-PRODUCT"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
+```
+
+```javascript
+const Moneeda = require('moneeda-node');
+const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
+
+// optional params
+
+moneeda.public(EXCHANGE)
+      .orderBook(PRODUCT)
+      .then((orderBook) => console.log(orderBook));
+
+// or with async/await
+const orderBook = await moneeda.public(EXCHANGE).orderBook('BTC-USD')
+
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "bids": [
+    {
+        "price": "0.00283300",
+        "amount": "251.51000000"
+    },
+    ...
+  ],
+  "asks" : [
+    {
+        "price": "0.00286900",
+        "amount": "1.68000000"
+    },
+    ...
+  ]
 }
 ```
 
-This endpoint deletes a specific kitten.
+> Make sure to replace `EXCHANGE` with your desired exchange
+
+Returns a promise that resolves the order book of a defined product
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`GET https://api.moneeda.com/api/EXCHANGE/book`
 
-### URL Parameters
+### Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+EXCHANGE | The desired exchange to retrieve the products.
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- |-------- | -----------
+product | - |The desired product.
+level | - | Deepness of the orderbook. Only for GDX.
