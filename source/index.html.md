@@ -95,24 +95,25 @@ Be careful if you are going to call multiple exchanges in different endpoints. Y
 have a new instance in each endpoint to avoid concurrency problems.
 </aside>
 
-## Get All Products
+## Products
 
 > Returns all the products of an exchange
 
 ```shell
 curl "https://api.moneeda.com/api/exchanges/EXCHANGE/products"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
 ```
 
 ```javascript
 const Moneeda = require('moneeda-node');
 const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
 
-moneeda.public(EXCHANGE).products();
-// or
-const publicClient = moneeda.public()
-publicClient.setExchange(EXCHANGE)
-publicClient.products()
+moneeda.public(EXCHANGE)
+      .products()
+      .then((products) => console.log(products));
+
+// or with async/await
+const products = await moneeda.public(EXCHANGE).products()
 
 ```
 
@@ -144,7 +145,7 @@ publicClient.products()
 > Make sure to replace `EXCHANGE` with your desired exchange
 
 
-This endpoint retrieves all the products of an exchange.
+Returns a Promise that resolves all products available for the defined exchange
 
 ### HTTP Request
 
@@ -157,59 +158,211 @@ Parameter | Description
 EXCHANGE | The desired exchange to retrieve the products.
 
 
-## Get a Specific Kitten
+## Ticker
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+> Returns a product ticker
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl "https://api.moneeda.com/api/exchanges/EXCHANGE/ticker?product=MY-PRODUCT"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
 ```
 
 ```javascript
-const kittn = require('kittn');
+const Moneeda = require('moneeda-node');
+const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+moneeda.public(EXCHANGE)
+      .ticker(MY-PRODUCT)
+      .then((ticker) => console.log(ticker));
+
+// or with async/await
+const ticker = await moneeda.public(EXCHANGE).ticker('BTC-USD')
+
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "price": 16940,
+    "size": 134.16484512,
+    "bid": 16930,
+    "ask": 16939,
+    "volume": 52005.64483952
 }
 ```
 
-This endpoint retrieves a specific kitten.
+> Make sure to replace `EXCHANGE` with your desired exchange
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+Returns a promise that resolves the ticker for an specific product
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET https://api.moneeda.com/api/EXCHANGE/ticker`
 
-### URL Parameters
+### Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+EXCHANGE | The desired exchange to retrieve the products.
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- |-------- | -----------
+product | - |The desired product.
+
+## Tickers
+
+> Returns all the products' tickers
+
+```shell
+curl "https://api.moneeda.com/api/exchanges/EXCHANGE/alltickers"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
+```
+
+```javascript
+const Moneeda = require('moneeda-node');
+const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
+
+moneeda.public(EXCHANGE)
+      .allTickers()
+      .then((tickers) => console.log(tickers));
+
+// or with async/await
+const tickers = await moneeda.public(EXCHANGE).allTickers()
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "product": "BTC-ETC",
+    "price": 0.00174066,
+    "high": 0.00194,
+    "low": 0.00158393,
+    "bid": 0.00174068,
+    "ask": 0.00174982,
+    "volume": 3345.87474393
+  },
+  {
+    "product": "BTC-ETH",
+    "price": 0.03795013,
+    "high": 0.03945476,
+    "low": 0.02975,
+    "bid": 0.03795013,
+    "ask": 0.03799998,
+    "volume": 14772.50221729
+  }
+]
+```
+
+> Make sure to replace `EXCHANGE` with your desired exchange
+
+Returns a promise that resolves the tickers of all the available products
+
+### HTTP Request
+
+`GET https://api.moneeda.com/api/EXCHANGE/alltickers`
+
+### Parameters
+
+Parameter | Description
+--------- | -----------
+EXCHANGE | The desired exchange to retrieve the products.
+
+<aside class="notice">
+This endpoint is not supported the following exchanges:
+<strong>GDX, LQI</strong>
+</aside>
+
+
+
+## Candles
+
+> Returns the candles for a specific product
+
+```shell
+curl "https://api.moneeda.com/api/exchanges/EXCHANGE/candles?product=MY-PRODUCT&period=30m"
+  -H "Authorization: Bearer MY_MONEEDA_TOKEN"
+```
+
+```javascript
+const Moneeda = require('moneeda-node');
+const moneeda = new Moneeda('MY_MONEEDA_TOKEN');
+
+moneeda.public(EXCHANGE)
+      .candles(PRODUCT, PERIOD)
+      .then((candles) => console.log(candles));
+
+// or with async/await
+const candles = await moneeda.public(EXCHANGE).candles('BTC-USD', '30m')
+
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "T": 1513126200,
+    "O": 17840.01,
+    "C": 17840.01,
+    "H": 17840.01,
+    "L": 17840,
+    "V": 5.50505191
+  },
+  {
+    "T": 1513125780,
+    "O": 17872,
+    "C": 17871,
+    "H": 17872.01,
+    "L": 17871,
+    "V": 19.252282129999994
+  },
+  ...
+]
+```
+
+> Make sure to replace `EXCHANGE` with your desired exchange
+
+Returns a promise that resolves the candles of a defined product for a specific period
+
+### HTTP Request
+
+`GET https://api.moneeda.com/api/EXCHANGE/candles`
+
+### Parameters
+
+Parameter | Description
+--------- | -----------
+EXCHANGE | The desired exchange to retrieve the products.
+
+### Query Parameters
+
+Parameter | Default | Description
+--------- |-------- | -----------
+product | - |The desired product.
+period | 30m | The period desired. Should be one of the following: 1m, 5m, 15m, 30m
+
+<aside class="notice">
+This endpoint is not supported the following exchanges:
+<strong>LQI</strong>
+</aside>
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Delete a Specific Kitten
 
