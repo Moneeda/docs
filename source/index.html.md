@@ -84,11 +84,21 @@ publicClient.setExchange('BTX');
 If you are using the provided `moneeda libraries`, you can easily get an instance
 of the public client
 
-### Exchanges
+## Exchanges
 Moneeda will use the defined exchange of the public instance by default.
 
 To set an exchange you can pass it as a `parameter` to the constructor or just
 set it as needed (great to make multiple calls to different exchanges).
+
+### Available Exchanges
+Moneeda suports currently the following exchanges
+
+- **BTX**: [Bittrex API](https://bittrex.com/home/api)
+- **GDX**: [Gdax API](https://docs.gdax.com/#api)
+- **BNB**: [Binance API](https://www.binance.com/restapipub.html)
+- **BFX**: [Bitfinex API](https://docs.bitfinex.com/docs)
+- **KRK**: [Kraken API](https://www.kraken.com/help/api)
+- **LQI**: [Liqui API](https://liqui.io/api)
 
 <aside class="warning">
 Be careful if you are going to call multiple exchanges in different endpoints. You should
@@ -155,7 +165,7 @@ Returns a Promise that resolves all products available for the defined exchange.
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 <aside class="success">
 All products' ids across different exchanges are formatted to have an standard pattern: <strong>BASE_CURRENCY-QUOTE_CURRENCY</strong> (ex: BTC-USD, ETH-OMG). The original product id is also provided.
@@ -208,13 +218,13 @@ Returns a promise that resolves the ticker for an specific product
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- |-------- | -----------
-product | - |The desired product.
+product | - |The id of any product returned by the [products](#products) endpoint
 
 ## Tickers
 
@@ -275,7 +285,7 @@ Returns a promise that resolves the tickers of all the available products
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 <aside class="notice">
 This endpoint is not supported the following exchanges:
@@ -334,6 +344,16 @@ const candles = await moneeda.public(EXCHANGE).candles('BTC-USD', '30m')
 
 Returns a promise that resolves the candles of a defined product for a specific period
 
+Each candle contains the following information:
+
+- T: Timestamp
+- O: Opening price
+- C: Closing price
+- H: Highest price
+- L: Lowerst price
+- V: Volume
+
+
 ### HTTP Request
 
 `GET https://api.moneeda.com/api/EXCHANGE/candles`
@@ -342,13 +362,13 @@ Returns a promise that resolves the candles of a defined product for a specific 
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- |-------- | -----------
-product | - |The desired product.
+product | - |The id of any product returned by the [products](#products) endpoint
 period | 30m | The period desired. Should be one of the following: 1m, 5m, 15m, 30m
 
 <aside class="notice">
@@ -419,13 +439,13 @@ Returns a promise that resolves the trades of a defined product
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- |-------- | -----------
-product | - |The desired product.
+product | - |The id of any product returned by the [products](#products) endpoint
 limit | - | Limit the amount of results
 from | - | From date timestamp
 to | - | To date timestamp
@@ -488,11 +508,11 @@ Returns a promise that resolves the order book of a defined product
 
 Parameter | Description
 --------- | -----------
-EXCHANGE | The desired exchange to retrieve the products.
+EXCHANGE | The desired [exchange](#exchanges) to retrieve the products.
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- |-------- | -----------
-product | - |The desired product.
+product | - | The id of any product returned by the [products](#products) endpoint
 level | - | Deepness of the orderbook. Only for GDX.
