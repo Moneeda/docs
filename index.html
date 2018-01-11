@@ -243,6 +243,9 @@
                     <a href="#public-client-instance" class="toc-h2 toc-link" data-title="Public client instance">Public client instance</a>
                   </li>
                   <li>
+                    <a href="#exchanges" class="toc-h2 toc-link" data-title="Exchanges">Exchanges</a>
+                  </li>
+                  <li>
                     <a href="#products" class="toc-h2 toc-link" data-title="Products">Products</a>
                   </li>
                   <li>
@@ -323,11 +326,22 @@ call the endpoint, consider using a Websocket instead.</p>
 </code></pre>
 <p>If you are using the provided <code>moneeda libraries</code>, you can easily get an instance
 of the public client</p>
-<h3 id='exchanges'>Exchanges</h3>
+<h2 id='exchanges'>Exchanges</h2>
 <p>Moneeda will use the defined exchange of the public instance by default.</p>
 
 <p>To set an exchange you can pass it as a <code>parameter</code> to the constructor or just
 set it as needed (great to make multiple calls to different exchanges).</p>
+<h3 id='available-exchanges'>Available Exchanges</h3>
+<p>Moneeda suports currently the following exchanges</p>
+
+<ul>
+<li><strong>BTX</strong>: <a href="https://bittrex.com/home/api">Bittrex API</a></li>
+<li><strong>GDX</strong>: <a href="https://docs.gdax.com/#api">Gdax API</a></li>
+<li><strong>BNB</strong>: <a href="https://www.binance.com/restapipub.html">Binance API</a></li>
+<li><strong>BFX</strong>: <a href="https://docs.bitfinex.com/docs">Bitfinex API</a></li>
+<li><strong>KRK</strong>: <a href="https://www.kraken.com/help/api">Kraken API</a></li>
+<li><strong>LQI</strong>: <a href="https://liqui.io/api">Liqui API</a></li>
+</ul>
 
 <aside class="warning">
 Be careful if you are going to call multiple exchanges in different endpoints. You should
@@ -390,7 +404,7 @@ have a new instance in each endpoint to avoid concurrency problems.
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 
@@ -441,7 +455,7 @@ All products' ids across different exchanges are formatted to have an standard p
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -455,7 +469,7 @@ All products' ids across different exchanges are formatted to have an standard p
 <tr>
 <td>product</td>
 <td>-</td>
-<td>The desired product.</td>
+<td>The id of any product returned by the <a href="#products">products</a> endpoint</td>
 </tr>
 </tbody></table>
 <h2 id='tickers'>Tickers</h2>
@@ -515,7 +529,7 @@ All products' ids across different exchanges are formatted to have an standard p
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 
@@ -568,6 +582,17 @@ This endpoint is not supported the following exchanges:
 </blockquote>
 
 <p>Returns a promise that resolves the candles of a defined product for a specific period</p>
+
+<p>Each candle contains the following information:</p>
+
+<ul>
+<li>T: Timestamp</li>
+<li>O: Opening price</li>
+<li>C: Closing price</li>
+<li>H: Highest price</li>
+<li>L: Lowerst price</li>
+<li>V: Volume</li>
+</ul>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>GET https://api.moneeda.com/api/EXCHANGE/candles</code></p>
 <h3 id='parameters-4'>Parameters</h3>
@@ -579,7 +604,7 @@ This endpoint is not supported the following exchanges:
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 <h3 id='query-parameters-2'>Query Parameters</h3>
@@ -593,7 +618,7 @@ This endpoint is not supported the following exchanges:
 <tr>
 <td>product</td>
 <td>-</td>
-<td>The desired product.</td>
+<td>The id of any product returned by the <a href="#products">products</a> endpoint</td>
 </tr>
 <tr>
 <td>period</td>
@@ -666,7 +691,7 @@ This endpoint is not supported the following exchanges:
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 <h3 id='query-parameters-3'>Query Parameters</h3>
@@ -680,7 +705,7 @@ This endpoint is not supported the following exchanges:
 <tr>
 <td>product</td>
 <td>-</td>
-<td>The desired product.</td>
+<td>The id of any product returned by the <a href="#products">products</a> endpoint</td>
 </tr>
 <tr>
 <td>limit</td>
@@ -753,7 +778,7 @@ This endpoint is not supported the following exchanges:
 </thead><tbody>
 <tr>
 <td>EXCHANGE</td>
-<td>The desired exchange to retrieve the products.</td>
+<td>The desired <a href="#exchanges">exchange</a> to retrieve the products.</td>
 </tr>
 </tbody></table>
 <h3 id='query-parameters-4'>Query Parameters</h3>
@@ -767,7 +792,7 @@ This endpoint is not supported the following exchanges:
 <tr>
 <td>product</td>
 <td>-</td>
-<td>The desired product.</td>
+<td>The id of any product returned by the <a href="#products">products</a> endpoint</td>
 </tr>
 <tr>
 <td>level</td>
