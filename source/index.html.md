@@ -159,7 +159,7 @@ Returns a Promise that resolves all products available for the defined exchange.
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/products`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/products`
 
 ### Parameters
 
@@ -212,7 +212,7 @@ Returns a promise that resolves the ticker for an specific product
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/ticker`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/ticker`
 
 ### Parameters
 
@@ -279,7 +279,7 @@ Returns a promise that resolves the tickers of all the available products
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/alltickers`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/alltickers`
 
 ### Parameters
 
@@ -356,7 +356,7 @@ Each candle contains the following information:
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/candles`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/candles`
 
 ### Parameters
 
@@ -433,7 +433,7 @@ Returns a promise that resolves the trades of a defined product
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/trades`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/trades`
 
 ### Parameters
 
@@ -502,7 +502,7 @@ Returns a promise that resolves the order book of a defined product
 
 ### HTTP Request
 
-`GET https://api.moneeda.com/api/EXCHANGE/book`
+`GET https://api.moneeda.com/api/exchanges/EXCHANGE/book`
 
 ### Parameters
 
